@@ -3,7 +3,7 @@
 # API Django REST Framework People Register
 
 API que simula um controlador de registros de pessoas, permitindo ao client:
- * Cadastrar categorias em que uma pessoa poderá ser cadastrada;
+ * Cadastrar categorias em que uma pessoa poderá ser registrada;
  * Cadastrar e atualizar dados de uma nova pessoa no sistema;
  * Fazer upload de um arquivo de identificação de determinada pessoa cadastrada;
  * Visualizar todas as medias carregadas no sistema ou filtrar esses registros por cada pessoa registrada no sistema;
@@ -21,6 +21,17 @@ API que simula um controlador de registros de pessoas, permitindo ao client:
 * /listmedia/<int:pk>/ -> listar todas as medias através da chave ID da pessoa cadastrada;
 * /swagger/ -> documentação da API 
 * /redoc/ -> documentação da API 
+
+## Funcionamento:
+Ao iniciar a aplicação, os dados de PERSON TYPE e MEDIA TYPE serão automaticamente carregados com alguns valores defaut, sendo que o client poderá incluir novas categorias na tabela PERSON TYPE através do comando POST.
+Com o sistema carregado, será possível registrar uma nova pessoa no sistema, informando o NAME, CPF, COMPANY e PERSON TYPE como dados obrigatórios e PHONE como dado opcional. 
+Após o cadastro é possível visualizar o registro de auditoria no '/audit/' ou '/listaudit/<int:pk>/' através do ID da tabela PERSON, todas as pessoas registradas através da '/person/' ou listar somente os dados de uma pessoa através do '/listperson/<int:cpf>/', informando o CPF desejado. 
+Através do comando PACTH, será possível atualizar os dados do registro de uma pessoa. Caso haja atualização do CPF, o mesmo será registrado na auditoria, ou quando houver uma atualização com o registro da pessoa, a base de dado de auditoria também será atualizada.
+Com o cadastro de um indivíduo finalizado, será possível incluir uma mídia de identificação (foto ou biometria). O uploada se realiza através da URL '/media/', informando para qual pessoa cadastrada será vinculada a imagem e a aplicação converterá a imagem para a base64. A consulta das mídias poderá ser realizada pela '/listmedia/<int:pk>/' informando o ID da tabela PERSON.
+
+## Estratégias:
+* Por motivo de usabilidade, a própria aplicação realiza a conversão para um arquivo de 256kb;
+* Para limitar o número de tipos de mídia (MEDIA TYPE), não foi disponibilizado um endpoint para realizar o POST nesta tabela;
 
 ## Informações de ambiente:
 [requirements.txt](https://github.com/LucasAlbFar/Django_DRF_PeopleRegister/blob/main/api/requirements.txt)
